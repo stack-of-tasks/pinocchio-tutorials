@@ -1,0 +1,82 @@
+0. Once upon a time (startup guide)
+===================================
+
+Objective
+---------
+The objective of this initial tutorial is to explain how to set up the system. Two solutions are proposed: i) using a VirtualBox out of the shelf or ii) installing on a native Ubuntu 14.04.
+
+The first solution i) is easier to set up: simply download the virtual disk and run it on VirtualBox on any Linux, Windows or Mac system. The drawback is some additional latency due to the virtualization, in particular when rendering graphics. On the other hand, if you have a Linux 14.04 available, following the procedure ii) should be straight forward and lead to better performances. If you plan to only use Pinocchio is the frame of a class and you dont have a Ubuntu available, choose solution i). If you rather plan to make extensive use of Pinocchio, for example for a MSc project, rather choose ii).
+
+i) Using a VirtualBox
+---------------------
+
+The tutorial is performed inside a virtual machine, under VirtualBox. VirtualBox is a free software, available on most platforms (Linux, Windows, MacOS). The virtual machine runs a Ubuntu 14.04 (64bits), with our software installed on it.
+
+*    Install VirtualBox for your computer from here.
+*    Download the virtual image. The image about 2,8Gb: expect from 10 minutes to 1 hour of downloading time, depending on the bandwidth from your network to our lab. Download here.
+*    Import the virtual image in VirtualBox, using the procedure described here.
+*    Start the virtual machine. The system auto log on the main user (ID student, password student). This user owns sudoer privilege.
+*    [optional] A complete tutorial about VirtualBox, along with an explanation of what is virtualization, is available here
+*    [optional] A Md5 checksum for each image is available here. This file can be used that the .ova file has been properly downloaded. Under Linux, check by first downloading both files .ova and .md5 in the same directory and then typing md5sum -c u1404x32.md5.
+*    [optional] You can install the "Guest Additions" in your virtual box, to improve the performance of the virtual computer (e.g. enlarge the size of the display). In the VirtualBox menu (when the virtual machine is on), choose "Devices" [Périphérique], then "Insert Guest Additions" [Additions Invités], and follow the instructions (remember that the password is "student"). 
+
+ii) Installation on the native Ubuntu system
+--------------------------------------------
+
+You can alternatively install the software on a native Linux. The instructions are the same for Ubuntu 12.04, 14.04 (32 or 64bits). It should work for a Ubuntu 16.04 (except osg-dae that is not working).
+
+The link:tp0_install_sh.html[script here] collects all the instructions that were needed to set up the above Virtual Box. It should run immediately on U14.04x64.
+
+On Ubuntu 14.04, the following distrib packages are needed (similar in u16.04, just adapt some of the names with simple google searches):
+[source,python]
+----
+apt-get install cmake cmake-curses-gui cmake-qt-gui curl doxygen g++ ipython libassimp-dev assimp-utils libboost-dev omniidl-python omniorb omniorb-idl omniorb-nameserver libomniorb4-dev libomnithread3-dev python python-matplotlib python-numpy python-scipy python2.7 qgit libbz2-dev zlib1g-dev libssl-dev pax tar libeigen3-dev libtinyxml-dev liburdfdom-dev libboost-all-dev libpcre3-dev libopenscenegraph-dev libqt4-dev python-qt4-dev libncurses-dev python-pip cython python-h5py
+----
+
+Then 
+
+The Debian (APT) packages are build from a  packaging "from sources" system named robot-pkg.
+Debian packets have been tested on U14.04 and U16.04. They should run out of the box (osg-dae only works on U14.04 but may be skipped). Set up the repository of robot-pkg:
+[source,python]
+----
+relcode=`lsb_release -cs`
+sudo tee /etc/apt/sources.list.d/robotpkg.list <<EOF
+deb [arch=amd64] http://robotpkg.openrobots.org/packages/debian/pub $relcode robotpkg
+EOF
+
+curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key add -
+sudo apt-get update
+----
+Here <relcode> is typically trusty or xenial.
+
+Also set up the bash environment. Add the following to you environment (at the end of your bashrc)
+[source,python]
+----
+export ROBOTPKG_BASE=/opt/openrobots
+export PKG_CONFIG_PATH=$ROBOTPKG_BASE/lib/pkgconfig:${PKG_CONFIG_PATH}
+export LD_LIBRARY_PATH=$ROBOTPKG_BASE/lib/:$ROBOTPKG_BASE/lib64/:${LD_LIBRARY_PATH}
+export PATH=$PATH:$ROBOTPKG_BASE/sbin:$ROBOTPKG_BASE/bin
+export PYTHON_LOCAL_PATH=lib/python2.7/dist-packages
+export PYTHON_SITE_PATH=lib/python2.7/site-packages
+export PYTHONPATH=${PYTHONPATH}:${ROBOTPKG_BASE}/${PYTHON_LOCAL_PATH}:${ROBOTPKG_BASE}/${PYTHON_SITE_PATH}
+----
+
+Finally instal the following APT packages
+[source,python]
+----
+apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
+----
+
+In case you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
+[source,python]
+----
+git clone git://git.openrobots.org/robots/robotpkg
+cd robotpkg
+git clone git://git.openrobots.org/robots/robotpkg/robotpkg-wip wip
+----
+(see also the dedicated menu to robot-pkg wip).
+
+Once robot-pkg is set up, install the packages wip/pinocchio (make checkout before make install), wip/osg-dae, and graphics/gepetto-viewer-corba/ .
+The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
+
+On u16.04, the plugin Osg-dae is not going to install properly. As most of the URDF files are using DAE mesh files, gepetto-viewer will not be able to properly display your models (note that Pinocchio will work properly, only display will fail). You then have two solutions: - re-compile OSG from source, which should also install the OSG DAE plugin. This is 2 hours of compilation, but should work fine. - In your URDF model, duplicate your mesh files to have both DAE file and OSG file (using osgconv). Then patch robot_wrapper.py to have gepetto-viewer loading the OSG files instead of DAE files (do not modify the URDF file): replace line #184 by "self.viewer.gui.addMesh(meshName, meshPath[:-3]+'osg')" 
