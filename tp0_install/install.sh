@@ -1,7 +1,6 @@
 #! /bin/sh
 
-### Install basic dependencies 
-sudo apt-get install -y cmake cmake-curses-gui cmake-qt-gui curl doxygen g++ ipython libassimp-dev assimp-utils libboost-dev omniidl-python omniorb omniorb-idl omniorb-nameserver libomniorb4-dev libomnithread3-dev python python-matplotlib python-numpy python-scipy python2.7 qgit libbz2-dev zlib1g-dev libssl-dev pax tar libeigen3-dev libtinyxml-dev liburdfdom-dev libboost-all-dev libpcre3-dev libopenscenegraph-dev libqt4-dev python-qt4-dev libncurses-dev python-pip cython python-h5py
+### Setup environment
 echo 'export ROBOTPKG_BASE=/opt/openrobots' >> .bashrc
 echo 'export PKG_CONFIG_PATH=$ROBOTPKG_BASE/lib/pkgconfig:${PKG_CONFIG_PATH}' >> .bashrc
 echo 'export LD_LIBRARY_PATH=$ROBOTPKG_BASE/lib/:$ROBOTPKG_BASE/lib64/:${LD_LIBRARY_PATH}' >> .bashrc
@@ -28,5 +27,3 @@ sudo pip install quadprog
 export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp27-none-linux_x86_64.whl
 pip install --upgrade $TF_BINARY_URL
 pip install tflearn
-
-
