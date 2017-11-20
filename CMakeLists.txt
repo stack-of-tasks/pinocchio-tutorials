@@ -3,7 +3,9 @@ PROJECT(pinocchio_tutos)
 
 FIND_PROGRAM(ASCIIDOC NAMES asciidoc)
 set(ASCIIDOC ${ASCIIDOC} --filter latex -a toc -a icons -o)
-
+FIND_PROGRAM(ZIP NAMES zip)
+#set(ZIP "${ZIP} -j")
+MESSAGE(STATUS ZIP "--${ZIP}--")
 # --- ASCIIDOC RULES ---------------------------------------------------------------
 MACRO(ADD_ASCIIDOC_TARGET asciidocfile htmlfile)
   # Create a "CUSTOM_COMMAND" to create the htmlfile from the asciidoc file.
@@ -126,6 +128,7 @@ foreach(dirname ${dirtargets})
       )
   endforeach(secname)
   # --- Add python files
+  set(pydeps)
   foreach(pyname ${${dirname}_pythons})
     get_filename_component(basename ${pyname} NAME_WE)
     get_filename_component(extname ${pyname} EXT)
@@ -139,11 +142,20 @@ foreach(dirname ${dirtargets})
       DEPENDS ${CMAKE_SOURCE_DIR}/${${dirname}_dir}/${pyname}                                     
       COMMENT "Copy ${pyname}")
     LIST(APPEND dirdeps ${destpy}/${dirname}/${pyname})
+    LIST(APPEND pydeps ${destpy}/${dirname}/${pyname})
     asciidoc_from_python_target(${destpy}/${dirname}/${pyname} ${shortname}.asciidoc )
     add_asciidoc_target(${shortname}.asciidoc ${dest}/${shortname}.html)
     LIST(APPEND dirdeps ${dest}/${shortname}.html)
   endforeach(pyname)
   # Add rule tpXX_ to compile all the directory.
+  if(${dirname}_pythons)
+    add_custom_command(
+      OUTPUT ${dest}/${dirname}.zip
+      COMMAND ${ZIP} -rj ${dest}/${dirname}.zip ${destpy}/${dirname}/
+      DEPENDS ${dirdeps}
+      COMMENT "Zip rule for ${dest}/${dirname}.zip ${ZIP} ${dest}/${dirname}.zip ${destpy}/${dirname}/")
+    LIST(APPEND dirdeps ${dest}/${dirname}.zip)
+  endif()
   add_custom_target(${dirname}_ DEPENDS ${dirdeps})
   LIST(APPEND alldeps ${dirname}_)
 endforeach(dirname)

@@ -66,8 +66,9 @@ Finally instal the following APT packages
 ----
 apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
 ----
+The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
-In case you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
+ALTERNATIVELY (don't do that if you already manage to install the packages through APT), you may prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
 [source,python]
 ----
 git clone git://git.openrobots.org/robots/robotpkg
@@ -77,6 +78,5 @@ git clone git://git.openrobots.org/robots/robotpkg/robotpkg-wip wip
 (see also the dedicated menu to robot-pkg wip).
 
 Once robot-pkg is set up, install the packages wip/pinocchio (make checkout before make install), wip/osg-dae, and graphics/gepetto-viewer-corba/ .
-The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
-On u16.04, the plugin Osg-dae is not going to install properly. As most of the URDF files are using DAE mesh files, gepetto-viewer will not be able to properly display your models (note that Pinocchio will work properly, only display will fail). You then have two solutions: - re-compile OSG from source, which should also install the OSG DAE plugin. This is 2 hours of compilation, but should work fine. - In your URDF model, duplicate your mesh files to have both DAE file and OSG file (using osgconv). Then patch robot_wrapper.py to have gepetto-viewer loading the OSG files instead of DAE files (do not modify the URDF file): replace line #184 by "self.viewer.gui.addMesh(meshName, meshPath[:-3]+'osg')" 
+On u16.04, the plugin Osg-dae is not going to install properly. As most of the URDF files are using DAE mesh files, gepetto-viewer will not be able to properly display your models (note that Pinocchio will work properly, only display will fail). You then have two solutions: - re-compile OSG from source, which should also install the OSG DAE plugin. This is 2 hours of compilation, but should work fine. - In your URDF model, duplicate your mesh files to have both DAE file and OSG file (using osgconv). Then patch robot_wrapper.py to have gepetto-viewer loading the OSG files instead of DAE files (do not modify the URDF file): replace line #184 by "self.viewer.gui.addMesh(meshName, meshPath[:-3]+'osg')". 
