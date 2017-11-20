@@ -19,7 +19,7 @@ curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key 
 sudo apt-get update
 
 ### Install Pinocchio
-sudo apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
+sudo apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba robotpkg-omniorbpy
 
 ### Install other requirement (quadprog, tensorflow)
 sudo chmod -R a+w /usr/local/

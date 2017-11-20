@@ -56,7 +56,7 @@ export PYTHONPATH=${PYTHONPATH}:${ROBOTPKG_BASE}/${PYTHON_LOCAL_PATH}:${ROBOTPKG
 Finally instal the following APT packages
 [source,python]
 ----
-apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
+apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba robotpkg-omniorbpy
 ----
 The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
