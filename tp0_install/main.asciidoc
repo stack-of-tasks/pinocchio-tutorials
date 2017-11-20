@@ -58,8 +58,9 @@ Finally instal the following APT packages
 ----
 apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
 ----
+The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
-In case you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
+ALTERNATIVELY (don't do that if you already manage to install the packages through APT), you may you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
 [source,python]
 ----
 git clone git://git.openrobots.org/robots/robotpkg
@@ -69,4 +70,3 @@ git clone git://git.openrobots.org/robots/robotpkg/robotpkg-wip wip
 (see also the dedicated menu to robot-pkg wip).
 
 Once robot-pkg is set up, install the packages wip/pinocchio (make checkout before make install), wip/osg-dae, and graphics/gepetto-viewer-corba/ .
-The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
