@@ -1,0 +1,28 @@
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: eur0c.laas.fr:4567/stack-of-tasks/pinocchio-tutorials/build
+  script: cmake . && make
+  artifacts:
+    paths:
+      - html
+    expire_in: 1 week
+
+deploy:
+  stage: deploy
+  image: eur0c.laas.fr:4567/stack-of-tasks/pinocchio-tutorials/deploy
+  before_script:
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - echo "$SSH_SERVER_HOSTKEYS" > ~/.ssh/known_hosts
+  script: "scp -r html/* gitlab@iwaki.laas.fr:/var/www/html/"
+  environment:
+    name: iwaki
+    url: http://iwaki.laas.fr
