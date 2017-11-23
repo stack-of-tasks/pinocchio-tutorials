@@ -46,8 +46,8 @@ class MobileRobotWrapper(RobotWrapper):
             self.viewer.gui.addCylinder('world/mobilewheel2',.05,.45,[0.1,.0,.0,1.])
             
             self.viewer.gui.setStaticTransform('world/mobilebasis',[0.,0.,.35,1.0,0.0,0.0,0.0])
-            self.viewer.gui.setStaticTransform('world/mobilewheel1',[ 0.15, -0.,.05, 0.7,0.7,0.0,0.0])
-            self.viewer.gui.setStaticTransform('world/mobilewheel2',[-0.15, -0.,.05, 0.7,0.7,0.0,0.0])
+            self.viewer.gui.setStaticTransform('world/mobilewheel1',[ 0.15, -0.,.05, 0.7,0.0,0.0,0.7])
+            self.viewer.gui.setStaticTransform('world/mobilewheel2',[-0.15, -0.,.05, 0.7,0.0,0.0,0.7])
 
             self.viewer.gui.addXYZaxis('world/framebasis',[1.,0.,0.,1.],.03,.1)
             self.viewer.gui.addXYZaxis('world/frametool' ,[1.,0.,0.,1.],.03,.1)
