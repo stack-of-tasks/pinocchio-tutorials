@@ -18,7 +18,7 @@ The tutorial is performed inside a virtual machine, under VirtualBox. VirtualBox
 *    Start the virtual machine. The system auto log on the main user (ID student, password student). This user owns sudoer privilege.
 *    [optional] A complete tutorial about VirtualBox, along with an explanation of what is virtualization, is available here
 *    [optional] A Md5 checksum for each image is available here. This file can be used that the .ova file has been properly downloaded. Under Linux, check by first downloading both files .ova and .md5 in the same directory and then typing md5sum -c u1404x32.md5.
-*    [optional] You can install the "Guest Additions" in your virtual box, to improve the performance of the virtual computer (e.g. enlarge the size of the display). In the VirtualBox menu (when the virtual machine is on), choose "Devices" [Périphérique], then "Insert Guest Additions" [Additions Invités], and follow the instructions (remember that the password is "student"). 
+*    [optional] You can install the "Guest Additions" in your virtual box, to improve the performance of the virtual computer (e.g. enlarge the size of the display). In the VirtualBox menu (when the virtual machine is on), choose "Devices" [Périphérique], then "Insert Guest Additions" [Additions Invités], and follow the instructions (remember that the password is "student").
 
 ii) Installation on the native Ubuntu system
 --------------------------------------------
@@ -56,7 +56,7 @@ export PYTHONPATH=${PYTHONPATH}:${ROBOTPKG_BASE}/${PYTHON_LOCAL_PATH}:${ROBOTPKG
 Finally instal the following APT packages
 [source,python]
 ----
-apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba robotpkg-omniorbpy
+sudo apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba robotpkg-omniorbpy
 ----
 The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
