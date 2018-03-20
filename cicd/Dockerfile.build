@@ -1,0 +1,8 @@
+FROM ubuntu:16.04
+
+RUN apt-get update -qqy && apt-get install -qqy \
+   asciidoc \
+   cmake \
+   g++ \
+   source-highlight \
+   && rm -rf /var/lib/apt/lists/*

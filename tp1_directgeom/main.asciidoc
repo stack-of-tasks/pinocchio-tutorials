@@ -136,11 +136,11 @@ pkg  = '/home/student/models/'
 urdf = pkg + '/ur_description/urdf/ur5_gripper.urdf'
 robot = RobotWrapper(urdf,[pkg,])
 ----
-The code of the RobotWrapper class is in /path/to/pinocchio//src/python/romeo_wrapper.py . Do not hesitate to have a look at it and to take inspiration from the implementation of the class functions.
+The code of the RobotWrapper class is in /opt/openrobots/lib/python2.7/site-packages/pinocchio/robot_wrapper.py . Do not hesitate to have a look at it and to take inspiration from the implementation of the class functions.
 
-UR5 is a fixed robot with one 6-DOF arms developed by the Danish company Universal Robot. All its 6 joints are revolute joints. Its configuration is in R^6 and is not subject to any constraint. The model of UR5 is described in a URDF file, with the visuals of the bodies of the robot being described as meshed (i.e. polygon soups) using the Collada format ".dae". Both the URDF and the DAE files are available in the attached ZIP archive. Uncompressed it in the VirtualBox, for example in the directory "/home/student/src/pinocchio/models".
+UR5 is a fixed robot with one 6-DOF arms developed by the Danish company Universal Robot. All its 6 joints are revolute joints. Its configuration is in R^6 and is not subject to any constraint. The model of UR5 is described in a URDF file, with the visuals of the bodies of the robot being described as meshed (i.e. polygon soups) using the Collada format ".dae". Both the URDF and the DAE files are available in the attached ZIP archive. Uncompressed it in the VirtualBox, for example in the directory "/home/student/models".
 
-* UR5 model and code link:ur5.zip[*ur5.zip*]
+* UR5 model and code link:http://homepages.laas.fr/nmansard/teach/supaero2017/ur5.zip[*ur5.zip*]
 
 Exploring the model
 ~~~~~~~~~~~~~~~~~~~
@@ -263,6 +263,11 @@ Pick:
 ~~~~~
 
 Say we have a target at position [.5,.1,.2] and we would like the robot to grasp it.
+[source,python]
+----
+robot.viewer.gui.applyConfiguration("world/sphere",[.5,.1,.2, 1.,0.,0.,0.])
+robot.viewer.gui.refresh() # Refresh the window.
+----
 
 First display a small sphere at this position to visualize it.
 

@@ -18,26 +18,18 @@ The tutorial is performed inside a virtual machine, under VirtualBox. VirtualBox
 *    Start the virtual machine. The system auto log on the main user (ID student, password student). This user owns sudoer privilege.
 *    [optional] A complete tutorial about VirtualBox, along with an explanation of what is virtualization, is available here
 *    [optional] A Md5 checksum for each image is available here. This file can be used that the .ova file has been properly downloaded. Under Linux, check by first downloading both files .ova and .md5 in the same directory and then typing md5sum -c u1404x32.md5.
-*    [optional] You can install the "Guest Additions" in your virtual box, to improve the performance of the virtual computer (e.g. enlarge the size of the display). In the VirtualBox menu (when the virtual machine is on), choose "Devices" [Périphérique], then "Insert Guest Additions" [Additions Invités], and follow the instructions (remember that the password is "student"). 
+*    [optional] You can install the "Guest Additions" in your virtual box, to improve the performance of the virtual computer (e.g. enlarge the size of the display). In the VirtualBox menu (when the virtual machine is on), choose "Devices" [Périphérique], then "Insert Guest Additions" [Additions Invités], and follow the instructions (remember that the password is "student").
 
 ii) Installation on the native Ubuntu system
 --------------------------------------------
 
-You can alternatively install the software on a native Linux. The instructions are the same for Ubuntu 12.04, 14.04 (32 or 64bits). It should work for a Ubuntu 16.04 (except osg-dae that is not working).
+You can alternatively install the software on a native Linux. The instructions are the same for Ubuntu 12.04, 14.04 (32 or 64bits) and 16.04 (64bits).
 
 The link:tp0_install_sh.html[script here] collects all the instructions that were needed to set up the above Virtual Box. It should run immediately on U14.04x64.
 
-On Ubuntu 14.04, the following distrib packages are needed (similar in u16.04, just adapt some of the names with simple google searches):
-[source,python]
-----
-apt-get install cmake cmake-curses-gui cmake-qt-gui curl doxygen g++ ipython libassimp-dev assimp-utils libboost-dev omniidl-python omniorb omniorb-idl omniorb-nameserver libomniorb4-dev libomnithread3-dev python python-matplotlib python-numpy python-scipy python2.7 qgit libbz2-dev zlib1g-dev libssl-dev pax tar libeigen3-dev libtinyxml-dev liburdfdom-dev libboost-all-dev libpcre3-dev libopenscenegraph-dev libqt4-dev python-qt4-dev libncurses-dev python-pip cython python-h5py
-----
-
-Then 
-
-The Debian (APT) packages are build from a  packaging "from sources" system named robot-pkg.
-Debian packets have been tested on U14.04 and U16.04. They should run out of the box (osg-dae only works on U14.04 but may be skipped). Set up the repository of robot-pkg:
-[source,python]
+The Debian (APT) packages are build from a packaging "from sources" system named robot-pkg.
+Debian packets have been tested on U14.04 and U16.04. They should run out of the box. Set up the repository of robot-pkg:
+[source,bash]
 ----
 relcode=`lsb_release -cs`
 sudo tee /etc/apt/sources.list.d/robotpkg.list <<EOF
@@ -64,10 +56,11 @@ export PYTHONPATH=${PYTHONPATH}:${ROBOTPKG_BASE}/${PYTHON_LOCAL_PATH}:${ROBOTPKG
 Finally instal the following APT packages
 [source,python]
 ----
-apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba
+sudo apt-get install -y robotpkg-pinocchio robotpkg-osg-dae robotpkg-gepetto-viewer-corba robotpkg-omniorbpy
 ----
+The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
 
-In case you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
+ALTERNATIVELY (don't do that if you already manage to install the packages through APT), you may you prefer to install from source, robot-Pkg is available link:http://robotpkg.openrobots.org/install.html[at this URL]. Follow the instructions to set up robot-pkg and robot-pkg wip:
 [source,python]
 ----
 git clone git://git.openrobots.org/robots/robotpkg
@@ -77,6 +70,3 @@ git clone git://git.openrobots.org/robots/robotpkg/robotpkg-wip wip
 (see also the dedicated menu to robot-pkg wip).
 
 Once robot-pkg is set up, install the packages wip/pinocchio (make checkout before make install), wip/osg-dae, and graphics/gepetto-viewer-corba/ .
-The installation can be tested by running link:tp0_viewer_unittest_py.html[this Python script].
-
-On u16.04, the plugin Osg-dae is not going to install properly. As most of the URDF files are using DAE mesh files, gepetto-viewer will not be able to properly display your models (note that Pinocchio will work properly, only display will fail). You then have two solutions: - re-compile OSG from source, which should also install the OSG DAE plugin. This is 2 hours of compilation, but should work fine. - In your URDF model, duplicate your mesh files to have both DAE file and OSG file (using osgconv). Then patch robot_wrapper.py to have gepetto-viewer loading the OSG files instead of DAE files (do not modify the URDF file): replace line #184 by "self.viewer.gui.addMesh(meshName, meshPath[:-3]+'osg')" 
